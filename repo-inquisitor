@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# RI-3: Basic entry point
+
+echo "🕵️  Repo Inquisitor v0.1 is starting..."
