@@ -2,4 +2,15 @@
 
 # RI-3: Basic entry point
 
+if [ "$1" == "--help" ]; then
+	echo ""
+	echo "Usage: repo-inquisitor [OPTIONS]"
+	echo ""
+	echo "Options:"
+	echo "  --help        Show this help message"
+	echo ""
+	exit 0
+fi
+
 echo "🕵️  Repo Inquisitor v0.1 is starting..."
+	
