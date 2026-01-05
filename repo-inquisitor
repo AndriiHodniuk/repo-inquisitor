@@ -1,10 +1,17 @@
 #!/bin/bash
 
-# RI-3: Basic entry point
+set -euo pipefail
 
-if [ "$1" == "--help" ]; then
+# --- ARGUMENT PARSING ---
+
+TARGET_DIR="${1:-.}"
+
+if [ "$TARGET_DIR" == "--help" ]; then
 	echo ""
-	echo "Usage: repo-inquisitor [OPTIONS]"
+	echo "Usage: repo-inquisitor [PATH]"
+	echo ""
+	echo "Arguments:"
+	echo "  PATH          Path to the directory to analyze (default: current directory)"
 	echo ""
 	echo "Options:"
 	echo "  --help        Show this help message"
@@ -12,5 +19,18 @@ if [ "$1" == "--help" ]; then
 	exit 0
 fi
 
-echo "🕵️  Repo Inquisitor v0.1 is starting..."
-	
+# --- VALIDATION ---
+
+if [ ! -d "$TARGET_DIR" ]; then
+	echo "❌ Error: Directory '$TARGET_DIR' does not exist."
+	exit 1
+fi
+
+# --- MAIN LOGIC ---
+
+FULL_PATH=$(cd "$TARGET_DIR" && pwd)
+
+echo "🕵️  Repo Inquisitor v0.1 " 
+echo "📂 Analyzing directory: $FULL_PATH"
+
+echo "✅ Setup complete. Ready for analysis."
