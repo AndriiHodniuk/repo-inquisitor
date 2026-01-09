@@ -33,4 +33,34 @@ FULL_PATH=$(cd "$TARGET_DIR" && pwd)
 echo "🕵️  Repo Inquisitor v0.1 " 
 echo "📂 Analyzing directory: $FULL_PATH"
 
-echo "✅ Setup complete. Ready for analysis."
+# --- CONFIGURATION (Colors) ---
+
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+echo ""
+echo "🔍 Scanning for technical debt..."
+
+# --- LOGIC: TODO COUNT ---
+
+TODO_COUNT=$(grep -r "TODO" "$TARGET_DIR" --exclude-dir={.git,.build,Pods,DerivedData} | wc -l || true)
+FIXME_COUNT=$(grep -r "FIXME" "$TARGET_DIR" --exclude-dir={.git,.build,Pods,DerivedData} | wc -l || true)
+
+#--- REPORTING ---
+
+echo -e "   Found ${YELLOW}${TODO_COUNT}${NC} TODOs"
+echo -e "   Found ${RED}${FIXME_COUNT}${NC} FIXMEs"
+
+# --- ANALYSIS / METRICS ---
+
+if [ "$FIXME_COUNT" -gt 0 ]; then
+	echo ""
+	echo -e "${RED} ⚠️    CRITICAL: You have unresolved FIXMEs! Fix them before release.${NC}"
+else
+	echo -e "${GREEN}✅ Clean code! No FIXMEs found.${NC}"
+fi
+
+echo ""
+echo "✅ Analysis complete."
